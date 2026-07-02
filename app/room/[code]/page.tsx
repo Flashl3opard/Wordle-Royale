@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { clearPlayerId, savePlayerId, usePlayerId } from "@/lib/player-session";
 import { useRoomStore } from "@/store/useRoomStore";
@@ -8,6 +8,8 @@ import { useRoomSubscription } from "@/hooks/useRoomSubscription";
 import { useRoundSubscription } from "@/hooks/useRoundSubscription";
 import { useMyGuessSubscription } from "@/hooks/useMyGuessSubscription";
 import { useRoundGuesses } from "@/hooks/useRoundGuesses";
+import { usePresenceSync } from "@/hooks/usePresenceSync";
+import { registerPresence } from "@/lib/firebase/presence";
 import { Lobby } from "@/components/Lobby";
 import { JoinInline } from "@/components/JoinInline";
 import { RoundPlay } from "@/components/RoundPlay";
@@ -32,6 +34,13 @@ export default function RoomPage() {
     room?.currentRound ?? 0,
     room?.status === "round_end" || room?.status === "finished"
   );
+
+  usePresenceSync(roomCode, myPlayerId ?? null);
+
+  useEffect(() => {
+    if (!myPlayerId) return;
+    return registerPresence(roomCode, myPlayerId);
+  }, [roomCode, myPlayerId]);
 
   const [advancing, setAdvancing] = useState(false);
   const [resetting, setResetting] = useState(false);
