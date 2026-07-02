@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "presence": {
+      "$roomCode": {
+        "$playerId": {
+          ".read": true,
+          ".write": true
+        }
+      }
+    }
+  }
+}
