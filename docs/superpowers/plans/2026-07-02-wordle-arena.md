@@ -3101,6 +3101,8 @@ git commit -m "feat: add RTDB presence tracking and Firestore connected-status m
 
 ### Task 18: Full end-to-end verification pass
 
+**Status: deferred to the user.** Tasks 1–17 are implemented, committed, and pass `npm test` (28/28), `npx tsc --noEmit`, and `npm run lint` with zero errors. This task's live steps (curl/browser verification against a real Firebase project) need `FIREBASE_SERVICE_ACCOUNT_KEY` in `.env`, which was not available during implementation. Run the steps below yourself once that key is in place — everything else in this plan is done.
+
 **Files:** none created — this task verifies the assembled system and fixes any issues found in place.
 
 - [ ] **Step 1: Run the full unit test suite**
