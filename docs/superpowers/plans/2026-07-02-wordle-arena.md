@@ -3144,6 +3144,11 @@ If nothing needed fixing, no commit is needed for this task.
 
 ---
 
+## Implementation deviations from this plan
+
+- **`lib/player-session.ts` / room page (Tasks 8, 11):** Next.js 16 ships `eslint-plugin-react-hooks@7`, which added a `react-hooks/set-state-in-effect` rule that errors on the `useEffect(() => setState(getPlayerId(roomCode)), [roomCode])` pattern shown in this plan. Actual implementation replaced it with a `usePlayerId(roomCode)` hook built on `useSyncExternalStore` (React's sanctioned way to read a synchronous browser-only store without an effect-driven `setState`), with `savePlayerId`/`clearPlayerId` dispatching a custom event so same-tab updates re-trigger the subscription. The room page's `JoinInline onJoined` callback simplified to just `savePlayerId(roomCode, id)` since the hook picks up the change automatically.
+- **`hooks/useRoundSubscription.ts` / `hooks/useMyGuessSubscription.ts` (Task 14):** dropped the early `setState(null)` calls in the disabled-guard branch (same lint rule) — harmless no-op since `useState`'s initial value is already `null`, and stale state from a prior round is never rendered because consumers gate on `room.status` in addition to the subscribed value.
+
 ## Post-plan notes (do not implement — informational)
 
 - Deploying security rules to Firebase requires `firebase deploy --only firestore:rules,database` via the Firebase CLI, which is outside this plan's scope (it assumes local dev against the existing project). Tell the user to run this themselves before going to production, since an un-deployed `firestore.rules` file has no effect on the live project.

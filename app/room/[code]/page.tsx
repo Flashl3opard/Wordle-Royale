@@ -1,27 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { clearPlayerId, getPlayerId, savePlayerId } from "@/lib/player-session";
+import { clearPlayerId, savePlayerId, usePlayerId } from "@/lib/player-session";
 import { useRoomStore } from "@/store/useRoomStore";
 import { useRoomSubscription } from "@/hooks/useRoomSubscription";
+import { useRoundSubscription } from "@/hooks/useRoundSubscription";
+import { useMyGuessSubscription } from "@/hooks/useMyGuessSubscription";
 import { Lobby } from "@/components/Lobby";
 import { JoinInline } from "@/components/JoinInline";
+import { RoundPlay } from "@/components/RoundPlay";
 
 export default function RoomPage() {
   const params = useParams<{ code: string }>();
   const router = useRouter();
   const roomCode = params.code.toUpperCase();
 
-  const [myPlayerId, setMyPlayerId] = useState<string | null | undefined>(undefined);
+  const myPlayerId = usePlayerId(roomCode);
 
   useRoomSubscription(roomCode);
   const room = useRoomStore((s) => s.room);
   const players = useRoomStore((s) => s.players);
 
-  useEffect(() => {
-    setMyPlayerId(getPlayerId(roomCode));
-  }, [roomCode]);
+  const round = useRoundSubscription(roomCode, room?.currentRound ?? 0);
+  const myGuess = useMyGuessSubscription(roomCode, room?.currentRound ?? 0, myPlayerId ?? null);
 
   function handleLeave() {
     clearPlayerId(roomCode);
@@ -41,10 +42,7 @@ export default function RoomPage() {
       <main className="flex min-h-screen items-center justify-center p-6">
         <JoinInline
           roomCode={roomCode}
-          onJoined={(id) => {
-            savePlayerId(roomCode, id);
-            setMyPlayerId(id);
-          }}
+          onJoined={(id) => savePlayerId(roomCode, id)}
         />
       </main>
     );
@@ -67,6 +65,15 @@ export default function RoomPage() {
           myPlayerId={myPlayerId}
           roomCode={roomCode}
           onLeave={handleLeave}
+        />
+      )}
+      {room.status === "in_round" && round && (
+        <RoundPlay
+          roomCode={roomCode}
+          myPlayerId={myPlayerId}
+          round={round}
+          roundDurationMs={room.roundDurationMs}
+          myGuess={myGuess}
         />
       )}
     </main>
