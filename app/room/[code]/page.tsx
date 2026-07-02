@@ -1,14 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { clearPlayerId, savePlayerId, usePlayerId } from "@/lib/player-session";
 import { useRoomStore } from "@/store/useRoomStore";
 import { useRoomSubscription } from "@/hooks/useRoomSubscription";
 import { useRoundSubscription } from "@/hooks/useRoundSubscription";
 import { useMyGuessSubscription } from "@/hooks/useMyGuessSubscription";
+import { useRoundGuesses } from "@/hooks/useRoundGuesses";
 import { Lobby } from "@/components/Lobby";
 import { JoinInline } from "@/components/JoinInline";
 import { RoundPlay } from "@/components/RoundPlay";
+import { RoundEnd } from "@/components/RoundEnd";
 
 export default function RoomPage() {
   const params = useParams<{ code: string }>();
@@ -23,10 +26,28 @@ export default function RoomPage() {
 
   const round = useRoundSubscription(roomCode, room?.currentRound ?? 0);
   const myGuess = useMyGuessSubscription(roomCode, room?.currentRound ?? 0, myPlayerId ?? null);
+  const guessesByPlayer = useRoundGuesses(
+    roomCode,
+    room?.currentRound ?? 0,
+    room?.status === "round_end" || room?.status === "finished"
+  );
+
+  const [advancing, setAdvancing] = useState(false);
 
   function handleLeave() {
     clearPlayerId(roomCode);
     router.push("/");
+  }
+
+  async function handleNextRound() {
+    if (!myPlayerId) return;
+    setAdvancing(true);
+    await fetch(`/api/rooms/${roomCode}/round/next`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ playerId: myPlayerId }),
+    });
+    setAdvancing(false);
   }
 
   if (myPlayerId === undefined || (myPlayerId && !room)) {
@@ -74,6 +95,17 @@ export default function RoomPage() {
           round={round}
           roundDurationMs={room.roundDurationMs}
           myGuess={myGuess}
+        />
+      )}
+      {room.status === "round_end" && round && (
+        <RoundEnd
+          round={round}
+          players={players}
+          guessesByPlayer={guessesByPlayer}
+          isHost={room.hostPlayerId === myPlayerId}
+          isFinalRound={room.currentRound >= room.roundCount}
+          onNext={handleNextRound}
+          advancing={advancing}
         />
       )}
     </main>
