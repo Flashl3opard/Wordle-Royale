@@ -12,6 +12,7 @@ import { Lobby } from "@/components/Lobby";
 import { JoinInline } from "@/components/JoinInline";
 import { RoundPlay } from "@/components/RoundPlay";
 import { RoundEnd } from "@/components/RoundEnd";
+import { Podium } from "@/components/Podium";
 
 export default function RoomPage() {
   const params = useParams<{ code: string }>();
@@ -33,6 +34,7 @@ export default function RoomPage() {
   );
 
   const [advancing, setAdvancing] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   function handleLeave() {
     clearPlayerId(roomCode);
@@ -48,6 +50,17 @@ export default function RoomPage() {
       body: JSON.stringify({ playerId: myPlayerId }),
     });
     setAdvancing(false);
+  }
+
+  async function handlePlayAgain() {
+    if (!myPlayerId) return;
+    setResetting(true);
+    await fetch(`/api/rooms/${roomCode}/reset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ playerId: myPlayerId }),
+    });
+    setResetting(false);
   }
 
   if (myPlayerId === undefined || (myPlayerId && !room)) {
@@ -106,6 +119,14 @@ export default function RoomPage() {
           isFinalRound={room.currentRound >= room.roundCount}
           onNext={handleNextRound}
           advancing={advancing}
+        />
+      )}
+      {room.status === "finished" && (
+        <Podium
+          players={players}
+          isHost={room.hostPlayerId === myPlayerId}
+          onPlayAgain={handlePlayAgain}
+          resetting={resetting}
         />
       )}
     </main>
