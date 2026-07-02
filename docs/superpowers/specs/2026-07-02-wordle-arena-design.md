@@ -68,7 +68,7 @@ Realtime Database (presence only):
 ## Security rules
 
 - Firestore: all client writes denied. Reads on `rooms/{code}` and subcollections allowed unauthenticated (guest app, no accounts) — mitigated by unguessable 6-char codes and a 4h TTL, not by auth. Guess subcollection reads are further restricted at the query level: clients only ever construct a query for their own `playerId` doc, but since Firestore rules can't see "intent," the rule allows read of `rounds/{n}/guesses/{playerId}` for any caller. This is an accepted MVP limitation (documented, not fixed) since there's no auth to key a rule on; noted as a known gap.
-- Realtime Database: clients may only write to their own `/presence/{roomCode}/{myPlayerId}` path (enforced via a rule keyed on a client-generated presence token passed at connect time), read the whole `/presence/{roomCode}` subtree.
+- Realtime Database: without Firebase Auth there's no identity to key a per-player write rule on, so `/presence/{roomCode}/**` is open read/write to any client — same no-auth tradeoff as Firestore above, and lower-impact since presence data isn't game state (worst case: a client falsely reports another player's online status).
 
 ## API routes (Admin SDK, Zod-validated on every input)
 
