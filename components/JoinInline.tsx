@@ -34,10 +34,15 @@ export function JoinInline({ roomCode, onJoined }: JoinInlineProps) {
   }
 
   return (
-    <form onSubmit={handleJoin} className="flex w-full max-w-sm flex-col gap-3">
-      <p className="text-center text-lg font-semibold">Join room {roomCode}</p>
+    <form
+      onSubmit={handleJoin}
+      className="flex w-full max-w-sm flex-col gap-4 border-4 border-black bg-white p-5 shadow-(--shadow-brutal)"
+    >
+      <p className="text-center font-(--font-display) text-2xl uppercase tracking-wide">
+        Join room {roomCode}
+      </p>
       <input
-        className="rounded border border-gray-400 px-3 py-2"
+        className="border-4 border-black px-3 py-2 font-bold placeholder:font-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-secondary"
         placeholder="Your nickname"
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
@@ -47,11 +52,11 @@ export function JoinInline({ roomCode, onJoined }: JoinInlineProps) {
       <button
         type="submit"
         disabled={loading}
-        className="rounded bg-green-600 px-4 py-2 font-semibold text-white disabled:opacity-50"
+        className="border-4 border-black bg-accent-primary px-4 py-3 font-(--font-display) uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000] disabled:opacity-50"
       >
         {loading ? "Joining..." : "Join Room"}
       </button>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm font-bold text-accent-primary">{error}</p>}
     </form>
   );
 }

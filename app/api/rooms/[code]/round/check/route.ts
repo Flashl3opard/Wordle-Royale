@@ -19,16 +19,16 @@ export async function POST(
     return NextResponse.json({ ok: true, finalized: false });
   }
 
-  const roundRef = roomRef.collection("rounds").doc(String(room.currentRound));
+  const roundRef = roomRef.collection("rounds").doc("1");
   const roundSnap = await roundRef.get();
   if (!roundSnap.exists) {
     return NextResponse.json({ ok: true, finalized: false });
   }
   const round = roundSnap.data() as RoundDoc;
-  if (Date.now() < round.roundEndsAt) {
+  if (round.roundEndsAt === null || Date.now() < round.roundEndsAt) {
     return NextResponse.json({ ok: true, finalized: false });
   }
 
-  await finalizeRoundIfNeeded(adminDb, roomCode, room.currentRound);
+  await finalizeRoundIfNeeded(adminDb, roomCode, 1);
   return NextResponse.json({ ok: true, finalized: true });
 }

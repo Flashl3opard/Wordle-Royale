@@ -17,6 +17,10 @@ describe("calculateSpeedMultiplier", () => {
   it("interpolates linearly between the bounds", () => {
     expect(calculateSpeedMultiplier(15000, 30000)).toBeCloseTo(1.5, 5);
   });
+
+  it("returns a flat 1.0x when time remaining is null (infinite mode)", () => {
+    expect(calculateSpeedMultiplier(null, 30000)).toBe(1);
+  });
 });
 
 describe("calculateGuessPoints", () => {
@@ -58,5 +62,25 @@ describe("calculateGuessPoints", () => {
       roundDurationMs: 30000,
     });
     expect(points).toBe(0);
+  });
+
+  it("infinite mode: solved guess with all-green tiles nets flat 100 (no speed bonus)", () => {
+    const points = calculateGuessPoints({
+      tiles: ["green", "green", "green", "green", "green"],
+      solved: true,
+      timeRemainingMs: null,
+      roundDurationMs: 30000,
+    });
+    expect(points).toBe(100);
+  });
+
+  it("infinite mode: partial yellow guess still banks flat points", () => {
+    const points = calculateGuessPoints({
+      tiles: ["yellow", "yellow", "gray", "gray", "gray"],
+      solved: false,
+      timeRemainingMs: null,
+      roundDurationMs: 30000,
+    });
+    expect(points).toBe(10);
   });
 });

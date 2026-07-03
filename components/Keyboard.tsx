@@ -27,9 +27,9 @@ function computeKeyStates(attempts: GuessAttempt[]): Record<string, TileColor> {
 }
 
 const KEY_COLORS: Record<TileColor, string> = {
-  green: "bg-green-600 text-white",
-  yellow: "bg-yellow-500 text-white",
-  gray: "bg-gray-500 text-white",
+  green: "bg-tile-correct text-white",
+  yellow: "bg-tile-present text-black",
+  gray: "bg-tile-absent text-white",
 };
 
 export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
@@ -43,9 +43,9 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
             <button
               disabled={disabled}
               onClick={() => onKeyPress("ENTER")}
-              className="rounded bg-gray-300 px-3 py-3 text-xs font-semibold disabled:opacity-50"
+              className="border-4 border-black bg-white px-3 py-3 text-xs font-black uppercase shadow-[2px_2px_0_#000] disabled:opacity-50"
             >
-              ENTER
+              Enter
             </button>
           )}
           {row.split("").map((letter) => (
@@ -53,8 +53,8 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
               key={letter}
               disabled={disabled}
               onClick={() => onKeyPress(letter)}
-              className={`rounded px-2.5 py-3 text-sm font-semibold disabled:opacity-50 ${
-                keyStates[letter] ? KEY_COLORS[keyStates[letter]] : "bg-gray-200"
+              className={`border-4 border-black px-2.5 py-3 text-sm font-black shadow-[2px_2px_0_#000] disabled:opacity-50 ${
+                keyStates[letter] ? KEY_COLORS[keyStates[letter]] : "bg-white"
               }`}
             >
               {letter}
@@ -64,7 +64,7 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
             <button
               disabled={disabled}
               onClick={() => onKeyPress("BACKSPACE")}
-              className="rounded bg-gray-300 px-3 py-3 text-xs font-semibold disabled:opacity-50"
+              className="border-4 border-black bg-white px-3 py-3 text-xs font-black uppercase shadow-[2px_2px_0_#000] disabled:opacity-50"
             >
               Del
             </button>

@@ -11,9 +11,9 @@ interface GameBoardProps {
 }
 
 const TILE_COLORS: Record<TileColor, string> = {
-  green: "bg-green-600 border-green-600 text-white",
-  yellow: "bg-yellow-500 border-yellow-500 text-white",
-  gray: "bg-gray-500 border-gray-500 text-white",
+  green: "bg-tile-correct border-black text-white",
+  yellow: "bg-tile-present border-black text-black",
+  gray: "bg-tile-absent border-black text-white",
 };
 
 type Row =
@@ -47,7 +47,7 @@ export function GameBoard({
                   initial={{ rotateX: 0 }}
                   animate={{ rotateX: [0, 90, 0] }}
                   transition={{ duration: 0.5, delay: colIndex * 0.15 }}
-                  className={`flex h-12 w-12 items-center justify-center rounded border-2 text-2xl font-bold sm:h-14 sm:w-14 ${TILE_COLORS[color]}`}
+                  className={`flex h-12 w-12 items-center justify-center border-4 text-2xl font-black shadow-[3px_3px_0_#000] sm:h-14 sm:w-14 ${TILE_COLORS[color]}`}
                 >
                   {letter}
                 </motion.div>
@@ -58,7 +58,7 @@ export function GameBoard({
               return (
                 <div
                   key={colIndex}
-                  className="flex h-12 w-12 items-center justify-center rounded border-2 border-gray-400 text-2xl font-bold sm:h-14 sm:w-14"
+                  className="flex h-12 w-12 items-center justify-center border-4 border-black text-2xl font-black sm:h-14 sm:w-14"
                 >
                   {letter}
                 </div>
@@ -67,7 +67,7 @@ export function GameBoard({
             return (
               <div
                 key={colIndex}
-                className="flex h-12 w-12 items-center justify-center rounded border-2 border-gray-200 sm:h-14 sm:w-14"
+                className="flex h-12 w-12 items-center justify-center border-4 border-gray-300 sm:h-14 sm:w-14"
               />
             );
           })}

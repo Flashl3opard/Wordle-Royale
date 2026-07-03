@@ -15,7 +15,7 @@ export async function finalizeRoundIfNeeded(
     if (roundSnap.data()!.status === "ended") return;
 
     tx.update(roundRef, { status: "ended" });
-    tx.update(roomRef, { status: "round_end" });
+    tx.update(roomRef, { status: "finished" });
   });
 }
 

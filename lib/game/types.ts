@@ -8,14 +8,14 @@ export interface GuessAttempt {
 }
 
 export type RoomStatus = "lobby" | "in_round" | "round_end" | "finished";
+export type GameMode = "timed" | "infinite";
 
 export interface RoomDoc {
   code: string;
   status: RoomStatus;
   hostPlayerId: string;
-  roundCount: number;
+  mode: GameMode;
   roundDurationMs: number;
-  currentRound: number;
   createdAt: number;
   expiresAt: number;
 }
@@ -33,7 +33,7 @@ export interface RoundDoc {
   roundNumber: number;
   secretWord: string;
   startedAt: number;
-  roundEndsAt: number;
+  roundEndsAt: number | null;
   status: "active" | "ended";
   solvedBy: string[];
 }

@@ -5,7 +5,6 @@ import { createRoomSchema } from "@/lib/game/validation";
 import { generateRoomCode } from "@/lib/game/room-code";
 
 const ROOM_TTL_MS = 4 * 60 * 60 * 1000;
-const DEFAULT_ROUND_COUNT = 6;
 const DEFAULT_ROUND_DURATION_MS = 30000;
 const MAX_CODE_ATTEMPTS = 10;
 
@@ -32,9 +31,8 @@ export async function POST(request: Request) {
       code,
       status: "lobby",
       hostPlayerId: playerId,
-      roundCount: DEFAULT_ROUND_COUNT,
+      mode: "timed",
       roundDurationMs: DEFAULT_ROUND_DURATION_MS,
-      currentRound: 0,
       createdAt: now,
       expiresAt: now + ROOM_TTL_MS,
     });

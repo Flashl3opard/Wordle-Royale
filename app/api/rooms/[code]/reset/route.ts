@@ -42,7 +42,7 @@ export async function POST(
     playersSnap.docs.map((p) => p.ref.update({ totalScore: 0, lastGuessAt: null }))
   );
 
-  await roomRef.update({ status: "lobby", currentRound: 0 });
+  await roomRef.update({ status: "lobby" });
 
   return NextResponse.json({ ok: true });
 }

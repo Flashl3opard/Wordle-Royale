@@ -3,7 +3,7 @@ import type { TileColor } from "./types";
 export interface ScoreGuessInput {
   tiles: TileColor[];
   solved: boolean;
-  timeRemainingMs: number;
+  timeRemainingMs: number | null;
   roundDurationMs: number;
 }
 
@@ -14,9 +14,10 @@ const MIN_MULTIPLIER = 1;
 const MAX_MULTIPLIER = 2;
 
 export function calculateSpeedMultiplier(
-  timeRemainingMs: number,
+  timeRemainingMs: number | null,
   roundDurationMs: number
 ): number {
+  if (timeRemainingMs === null) return MIN_MULTIPLIER;
   const raw = 1 + timeRemainingMs / roundDurationMs;
   return Math.min(Math.max(raw, MIN_MULTIPLIER), MAX_MULTIPLIER);
 }

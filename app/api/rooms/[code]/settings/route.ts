@@ -31,8 +31,10 @@ export async function PATCH(
   }
 
   await roomRef.update({
-    roundCount: parsed.data.roundCount,
-    roundDurationMs: parsed.data.roundDurationMs,
+    mode: parsed.data.mode,
+    ...(parsed.data.roundDurationMs !== undefined
+      ? { roundDurationMs: parsed.data.roundDurationMs }
+      : {}),
   });
 
   return NextResponse.json({ ok: true });

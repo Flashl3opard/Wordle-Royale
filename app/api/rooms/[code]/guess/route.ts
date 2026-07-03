@@ -47,14 +47,14 @@ export async function POST(
     return NextResponse.json({ error: "Slow down" }, { status: 429 });
   }
 
-  const roundNumber = room.currentRound;
+  const roundNumber = 1;
   const roundRef = roomRef.collection("rounds").doc(String(roundNumber));
   const roundSnap = await roundRef.get();
   if (!roundSnap.exists || (roundSnap.data() as RoundDoc).status !== "active") {
     return NextResponse.json({ error: "Round is not active" }, { status: 409 });
   }
   const round = roundSnap.data() as RoundDoc;
-  if (now >= round.roundEndsAt) {
+  if (round.roundEndsAt !== null && now >= round.roundEndsAt) {
     await finalizeRoundIfNeeded(adminDb, roomCode, roundNumber);
     return NextResponse.json({ error: "Time is up" }, { status: 409 });
   }
@@ -75,7 +75,7 @@ export async function POST(
 
   const tiles = computeTileResults(round.secretWord, guessWord);
   const solved = tiles.every((t) => t === "green");
-  const timeRemainingMs = Math.max(0, round.roundEndsAt - now);
+  const timeRemainingMs = round.roundEndsAt !== null ? Math.max(0, round.roundEndsAt - now) : null;
   const pointsEarned = calculateGuessPoints({
     tiles,
     solved,

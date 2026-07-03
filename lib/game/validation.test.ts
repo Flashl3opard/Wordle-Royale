@@ -30,16 +30,35 @@ describe("guessSchema", () => {
 });
 
 describe("roomSettingsSchema", () => {
-  it("accepts round count and duration within bounds", () => {
+  it("accepts timed mode with a duration in bounds", () => {
     expect(
-      roomSettingsSchema.safeParse({ playerId: "p1", roundCount: 6, roundDurationMs: 30000 })
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 30000 })
         .success
     ).toBe(true);
   });
 
-  it("rejects a round count of zero", () => {
+  it("accepts infinite mode without a duration", () => {
     expect(
-      roomSettingsSchema.safeParse({ playerId: "p1", roundCount: 0, roundDurationMs: 30000 })
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "infinite" }).success
+    ).toBe(true);
+  });
+
+  it("rejects timed mode with a duration below 10s", () => {
+    expect(
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 5000 })
+        .success
+    ).toBe(false);
+  });
+
+  it("rejects timed mode with no duration at all", () => {
+    expect(
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed" }).success
+    ).toBe(false);
+  });
+
+  it("rejects an invalid mode value", () => {
+    expect(
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "endless", roundDurationMs: 30000 })
         .success
     ).toBe(false);
   });

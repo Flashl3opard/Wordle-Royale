@@ -98,12 +98,16 @@ export function RoundPlay({
         <GameBoard attempts={attempts} currentGuess={canPlay ? currentGuess : ""} />
       </motion.div>
       {solved && (
-        <p className="font-semibold text-green-600">You solved it! Waiting for others...</p>
+        <p className="border-4 border-black bg-tile-correct px-4 py-2 font-(--font-display) uppercase text-white shadow-(--shadow-brutal)">
+          You solved it! Waiting for others...
+        </p>
       )}
       {outOfAttempts && !solved && (
-        <p className="font-semibold text-gray-600">Out of guesses. Waiting for others...</p>
+        <p className="border-4 border-black bg-white px-4 py-2 font-(--font-display) uppercase shadow-(--shadow-brutal)">
+          Out of guesses. Waiting for others...
+        </p>
       )}
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm font-bold text-accent-primary">{error}</p>}
       <Keyboard attempts={attempts} onKeyPress={handleKeyPress} disabled={!canPlay || submitting} />
     </div>
   );

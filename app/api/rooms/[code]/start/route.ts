@@ -40,12 +40,12 @@ export async function POST(
     roundNumber: 1,
     secretWord,
     startedAt: now,
-    roundEndsAt: now + room.roundDurationMs,
+    roundEndsAt: room.mode === "timed" ? now + room.roundDurationMs : null,
     status: "active",
     solvedBy: [],
   });
 
-  await roomRef.update({ status: "in_round", currentRound: 1 });
+  await roomRef.update({ status: "in_round" });
 
   return NextResponse.json({ ok: true });
 }

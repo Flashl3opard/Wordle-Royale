@@ -9,12 +9,15 @@ import { useRoundSubscription } from "@/hooks/useRoundSubscription";
 import { useMyGuessSubscription } from "@/hooks/useMyGuessSubscription";
 import { useRoundGuesses } from "@/hooks/useRoundGuesses";
 import { usePresenceSync } from "@/hooks/usePresenceSync";
+import { usePresenceToasts } from "@/hooks/usePresenceToasts";
 import { registerPresence } from "@/lib/firebase/presence";
 import { Lobby } from "@/components/Lobby";
 import { JoinInline } from "@/components/JoinInline";
 import { RoundPlay } from "@/components/RoundPlay";
-import { RoundEnd } from "@/components/RoundEnd";
 import { Podium } from "@/components/Podium";
+import { ToastStack } from "@/components/Toast";
+
+const ROUND_NUMBER = 1;
 
 export default function RoomPage() {
   const params = useParams<{ code: string }>();
@@ -27,12 +30,12 @@ export default function RoomPage() {
   const room = useRoomStore((s) => s.room);
   const players = useRoomStore((s) => s.players);
 
-  const round = useRoundSubscription(roomCode, room?.currentRound ?? 0);
-  const myGuess = useMyGuessSubscription(roomCode, room?.currentRound ?? 0, myPlayerId ?? null);
+  const round = useRoundSubscription(roomCode, ROUND_NUMBER);
+  const myGuess = useMyGuessSubscription(roomCode, ROUND_NUMBER, myPlayerId ?? null);
   const guessesByPlayer = useRoundGuesses(
     roomCode,
-    room?.currentRound ?? 0,
-    room?.status === "round_end" || room?.status === "finished"
+    ROUND_NUMBER,
+    room?.status === "finished"
   );
 
   usePresenceSync(roomCode, myPlayerId ?? null);
@@ -42,23 +45,13 @@ export default function RoomPage() {
     return registerPresence(roomCode, myPlayerId);
   }, [roomCode, myPlayerId]);
 
-  const [advancing, setAdvancing] = useState(false);
+  const toasts = usePresenceToasts(players);
+
   const [resetting, setResetting] = useState(false);
 
   function handleLeave() {
     clearPlayerId(roomCode);
     router.push("/");
-  }
-
-  async function handleNextRound() {
-    if (!myPlayerId) return;
-    setAdvancing(true);
-    await fetch(`/api/rooms/${roomCode}/round/next`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ playerId: myPlayerId }),
-    });
-    setAdvancing(false);
   }
 
   async function handlePlayAgain() {
@@ -101,6 +94,7 @@ export default function RoomPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-8 p-6">
+      <ToastStack toasts={toasts} />
       {room.status === "lobby" && (
         <Lobby
           room={room}
@@ -119,23 +113,14 @@ export default function RoomPage() {
           myGuess={myGuess}
         />
       )}
-      {room.status === "round_end" && round && (
-        <RoundEnd
-          round={round}
-          players={players}
-          guessesByPlayer={guessesByPlayer}
-          isHost={room.hostPlayerId === myPlayerId}
-          isFinalRound={room.currentRound >= room.roundCount}
-          onNext={handleNextRound}
-          advancing={advancing}
-        />
-      )}
-      {room.status === "finished" && (
+      {room.status === "finished" && round && (
         <Podium
           players={players}
           isHost={room.hostPlayerId === myPlayerId}
           onPlayAgain={handlePlayAgain}
           resetting={resetting}
+          secretWord={round.secretWord}
+          guessesByPlayer={guessesByPlayer}
         />
       )}
     </main>

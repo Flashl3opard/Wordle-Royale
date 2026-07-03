@@ -14,11 +14,16 @@ export const joinRoomSchema = z.object({
   nickname: nicknameSchema,
 });
 
-export const roomSettingsSchema = z.object({
-  playerId: z.string().min(1),
-  roundCount: z.number().int().min(1).max(20),
-  roundDurationMs: z.number().int().min(10000).max(120000),
-});
+export const roomSettingsSchema = z
+  .object({
+    playerId: z.string().min(1),
+    mode: z.enum(["timed", "infinite"]),
+    roundDurationMs: z.number().int().min(10000).max(120000).optional(),
+  })
+  .refine((data) => data.mode !== "timed" || data.roundDurationMs !== undefined, {
+    message: "roundDurationMs is required for timed mode",
+    path: ["roundDurationMs"],
+  });
 
 export const startRoomSchema = z.object({
   playerId: z.string().min(1),
@@ -33,10 +38,6 @@ export const guessSchema = z.object({
 });
 
 export const leaveRoomSchema = z.object({
-  playerId: z.string().min(1),
-});
-
-export const roundNextSchema = z.object({
   playerId: z.string().min(1),
 });
 
