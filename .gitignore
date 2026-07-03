@@ -34,8 +34,15 @@ yarn-error.log*
 .env*
 !.env.example
 
+# firebase service account secrets
+Firebase_Service.json
+*service-account*.json
+
 # vercel
 .vercel
+
+# brainstorming visual companion scratch files
+.superpowers/
 
 # typescript
 *.tsbuildinfo
