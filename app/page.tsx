@@ -35,16 +35,20 @@ export default function HomePage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-surface p-6">
-      <h1 className="font-(--font-display) text-6xl uppercase tracking-tight text-ink">
-        Wordle Arena
+    <main className="relative flex min-h-screen flex-col items-center justify-center gap-8 overflow-hidden bg-surface p-6">
+      <div className="pointer-events-none absolute top-10 left-8 h-16 w-16 rotate-12 border-4 border-black bg-accent-tertiary sm:h-24 sm:w-24" />
+      <div className="pointer-events-none absolute right-10 bottom-16 h-20 w-20 -rotate-12 rounded-full border-4 border-black bg-accent-quaternary sm:h-28 sm:w-28" />
+      <div className="pointer-events-none absolute top-1/3 right-6 h-10 w-10 rotate-45 border-4 border-black bg-accent-secondary sm:h-14 sm:w-14" />
+
+      <h1 className="relative font-(--font-display) text-6xl uppercase tracking-tight text-ink sm:text-7xl">
+        <span className="text-accent-primary">Wordle</span> Arena
       </h1>
       <form
         onSubmit={handleCreateRoom}
-        className="flex w-full max-w-sm flex-col gap-4 border-4 border-black bg-white p-5 shadow-(--shadow-brutal)"
+        className="relative flex w-full max-w-sm flex-col gap-4 border-4 border-black bg-white p-5 shadow-(--shadow-brutal-lg)"
       >
         <input
-          className="border-4 border-black px-3 py-2 font-bold placeholder:font-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-secondary"
+          className="border-4 border-black px-3 py-2 font-bold placeholder:font-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-blue"
           placeholder="Your nickname"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
@@ -54,13 +58,13 @@ export default function HomePage() {
         <button
           type="submit"
           disabled={loading}
-          className="border-4 border-black bg-accent-primary px-4 py-3 font-(--font-display) uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000] disabled:opacity-50"
+          className="border-4 border-black bg-accent-primary px-4 py-3 font-(--font-display) uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
         >
           {loading ? "Creating..." : "Create Room"}
         </button>
         <a
           href="/join"
-          className="text-center text-sm font-bold uppercase underline decoration-2 underline-offset-4"
+          className="text-center text-sm font-bold uppercase text-accent-blue underline decoration-2 underline-offset-4"
         >
           Have a room code? Join instead
         </a>

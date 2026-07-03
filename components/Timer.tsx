@@ -28,7 +28,7 @@ export function Timer({ roundEndsAt, roundDurationMs, onExpire }: TimerProps) {
 
   if (roundEndsAt === null) {
     return (
-      <div className="w-full max-w-md border-4 border-black bg-accent-secondary px-3 py-2 text-center">
+      <div className="w-full max-w-md border-4 border-black bg-accent-tertiary px-3 py-2 text-center shadow-(--shadow-brutal)">
         <p className="font-(--font-display) text-lg uppercase tracking-widest">
           ∞ No Clock
         </p>
@@ -38,12 +38,13 @@ export function Timer({ roundEndsAt, roundDurationMs, onExpire }: TimerProps) {
 
   const seconds = Math.ceil(remainingMs / 1000);
   const percent = Math.min(100, Math.max(0, (remainingMs / roundDurationMs) * 100));
+  const urgent = percent < 25;
 
   return (
-    <div className="w-full max-w-md border-4 border-black bg-white">
+    <div className="w-full max-w-md border-4 border-black bg-white shadow-(--shadow-brutal)">
       <div className="h-4 w-full overflow-hidden border-b-4 border-black bg-white">
         <div
-          className="h-full bg-accent-primary transition-[width] duration-200 ease-linear"
+          className={`h-full transition-[width] duration-200 ease-linear ${urgent ? "bg-accent-primary" : "bg-accent-blue"}`}
           style={{ width: `${percent}%` }}
         />
       </div>

@@ -16,8 +16,8 @@ interface PodiumProps {
 
 const PLACE_COLORS: Record<number, string> = {
   1: "bg-accent-secondary",
-  2: "bg-gray-300",
-  3: "bg-accent-primary",
+  2: "bg-accent-tertiary",
+  3: "bg-accent-quaternary",
 };
 const PLACE_HEIGHTS: Record<number, string> = {
   1: "h-32",
@@ -44,11 +44,13 @@ export function Podium({
 
   return (
     <div className="flex w-full max-w-md flex-col items-center gap-6">
-      <div className="border-4 border-black bg-white p-4 text-center shadow-(--shadow-brutal)">
-        <p className="text-xs font-bold uppercase tracking-widest text-gray-600">The word was</p>
+      <div className="border-4 border-black bg-accent-blue p-4 text-center text-white shadow-(--shadow-brutal-lg)">
+        <p className="text-xs font-bold uppercase tracking-widest text-white/80">The word was</p>
         <p className="font-(--font-display) text-4xl uppercase tracking-widest">{secretWord}</p>
       </div>
-      <h2 className="font-(--font-display) text-3xl uppercase">Final Results</h2>
+      <h2 className="font-(--font-display) text-3xl uppercase">
+        <span className="text-accent-primary">Final</span> Results
+      </h2>
       <div className="flex w-full items-end justify-center gap-3">
         {second && <PodiumSpot player={second} place={2} />}
         {first && <PodiumSpot player={first} place={1} />}

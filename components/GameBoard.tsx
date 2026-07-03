@@ -58,7 +58,9 @@ export function GameBoard({
               return (
                 <div
                   key={colIndex}
-                  className="flex h-12 w-12 items-center justify-center border-4 border-black text-2xl font-black sm:h-14 sm:w-14"
+                  className={`flex h-12 w-12 items-center justify-center border-4 text-2xl font-black sm:h-14 sm:w-14 ${
+                    letter ? "border-black bg-accent-secondary/30" : "border-black"
+                  }`}
                 >
                   {letter}
                 </div>

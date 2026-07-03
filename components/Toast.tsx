@@ -18,7 +18,7 @@ export function ToastStack({ toasts }: ToastStackProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             className={`border-4 border-black px-4 py-2 text-sm font-bold uppercase tracking-wide shadow-[4px_4px_0_#000] ${
-              toast.kind === "left" ? "bg-accent-primary text-white" : "bg-accent-secondary text-black"
+              toast.kind === "left" ? "bg-accent-primary text-white" : "bg-accent-tertiary text-black"
             }`}
           >
             {toast.text}

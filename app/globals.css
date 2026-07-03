@@ -1,15 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --surface: #f2f0e9;
+  color-scheme: light;
+  --surface: #fdf6e9;
   --ink: #000000;
-  --accent-primary: #ff4b1f;
-  --accent-secondary: #ffc53d;
-  --tile-correct: #6b8e23;
-  --tile-present: #ffc53d;
+  --accent-primary: #ff3d3d;
+  --accent-secondary: #ffd600;
+  --accent-tertiary: #00e0d3;
+  --accent-quaternary: #ff2fb0;
+  --accent-blue: #2f6bff;
+  --tile-correct: #00c853;
+  --tile-present: #ffd600;
   --tile-absent: #6b6b6b;
-  --shadow-brutal: 4px 4px 0 #000000;
-  --shadow-brutal-accent: 4px 4px 0 #ff4b1f;
+  --shadow-brutal: 5px 5px 0 #000000;
+  --shadow-brutal-lg: 8px 8px 0 #000000;
 }
 
 @theme inline {
@@ -17,6 +21,9 @@
   --color-ink: var(--ink);
   --color-accent-primary: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
+  --color-accent-tertiary: var(--accent-tertiary);
+  --color-accent-quaternary: var(--accent-quaternary);
+  --color-accent-blue: var(--accent-blue);
   --color-tile-correct: var(--tile-correct);
   --color-tile-present: var(--tile-present);
   --color-tile-absent: var(--tile-absent);
