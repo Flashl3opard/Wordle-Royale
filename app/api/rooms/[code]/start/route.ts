@@ -33,6 +33,9 @@ export async function POST(
     return NextResponse.json({ error: "Need at least 2 players to start" }, { status: 409 });
   }
 
+  const mode = parsed.data.mode;
+  const roundDurationMs = mode === "timed" ? parsed.data.roundDurationMs! : room.roundDurationMs;
+
   const secretWord = pickSecretWord();
   const now = Date.now();
 
@@ -40,12 +43,12 @@ export async function POST(
     roundNumber: 1,
     secretWord,
     startedAt: now,
-    roundEndsAt: room.mode === "timed" ? now + room.roundDurationMs : null,
+    roundEndsAt: mode === "timed" ? now + roundDurationMs : null,
     status: "active",
     solvedBy: [],
   });
 
-  await roomRef.update({ status: "in_round" });
+  await roomRef.update({ status: "in_round", mode, roundDurationMs });
 
   return NextResponse.json({ ok: true });
 }
