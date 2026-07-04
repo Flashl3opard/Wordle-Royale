@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createRoomSchema, guessSchema, roomSettingsSchema } from "./validation";
+import { createRoomSchema, guessSchema, roomSettingsSchema, startRoomSchema } from "./validation";
 
 describe("createRoomSchema", () => {
   it("accepts a valid nickname", () => {
@@ -43,7 +43,7 @@ describe("roomSettingsSchema", () => {
     ).toBe(true);
   });
 
-  it("rejects timed mode with a duration below 10s", () => {
+  it("rejects timed mode with a duration below 30s", () => {
     expect(
       roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 5000 })
         .success
@@ -61,5 +61,67 @@ describe("roomSettingsSchema", () => {
       roomSettingsSchema.safeParse({ playerId: "p1", mode: "endless", roundDurationMs: 30000 })
         .success
     ).toBe(false);
+  });
+});
+
+describe("roomSettingsSchema (minutes range)", () => {
+  it("accepts a duration at the new 30s floor", () => {
+    expect(
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 30000 })
+        .success
+    ).toBe(true);
+  });
+
+  it("accepts a duration at the new 10min ceiling", () => {
+    expect(
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 600000 })
+        .success
+    ).toBe(true);
+  });
+
+  it("rejects a duration below 30s", () => {
+    expect(
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 10000 })
+        .success
+    ).toBe(false);
+  });
+
+  it("rejects a duration above 10min", () => {
+    expect(
+      roomSettingsSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 700000 })
+        .success
+    ).toBe(false);
+  });
+});
+
+describe("startRoomSchema", () => {
+  it("accepts timed mode with a duration in bounds", () => {
+    expect(
+      startRoomSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 90000 })
+        .success
+    ).toBe(true);
+  });
+
+  it("accepts infinite mode without a duration", () => {
+    expect(
+      startRoomSchema.safeParse({ playerId: "p1", mode: "infinite" }).success
+    ).toBe(true);
+  });
+
+  it("rejects timed mode with no duration at all", () => {
+    expect(
+      startRoomSchema.safeParse({ playerId: "p1", mode: "timed" }).success
+    ).toBe(false);
+  });
+
+  it("rejects timed mode with a duration out of bounds", () => {
+    expect(
+      startRoomSchema.safeParse({ playerId: "p1", mode: "timed", roundDurationMs: 5000 })
+        .success
+    ).toBe(false);
+  });
+
+  it("rejects a request missing playerId", () => {
+    expect(startRoomSchema.safeParse({ mode: "infinite" }).success).toBe(false);
   });
 });
