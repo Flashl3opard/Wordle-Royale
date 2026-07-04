@@ -70,6 +70,18 @@ export default function HomePage() {
         </a>
         {error && <p className="text-sm font-bold text-accent-primary">{error}</p>}
       </form>
+
+      <footer className="relative mt-4 text-center text-sm font-bold uppercase tracking-wide text-ink/70">
+        Made with ❤️ by{" "}
+        <a
+          href="https://github.com/FlashL3opard"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent-blue underline decoration-2 underline-offset-4 hover:text-accent-primary"
+        >
+          FlashL3opard
+        </a>
+      </footer>
     </main>
   );
 }
