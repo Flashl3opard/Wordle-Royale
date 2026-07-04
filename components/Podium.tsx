@@ -59,9 +59,9 @@ export function Podium({
       <div className="relative z-10 flex w-full flex-col items-center gap-6">
         <div className="border-4 border-black bg-accent-blue p-4 text-center text-white shadow-(--shadow-brutal-lg)">
           <p className="text-xs font-bold uppercase tracking-widest text-white/80">The word was</p>
-          <p className="font-(--font-display) text-4xl uppercase tracking-widest">{secretWord}</p>
+          <p className="font-display text-4xl uppercase tracking-widest">{secretWord}</p>
         </div>
-        <h2 className="font-(--font-display) text-3xl uppercase">
+        <h2 className="font-display text-3xl uppercase">
           <span className="text-accent-primary">Final</span> Results
         </h2>
         <div className="flex w-full items-end justify-center gap-3">
@@ -81,7 +81,7 @@ export function Podium({
                   <span className="ml-2 text-xs uppercase text-tile-correct">solved</span>
                 )}
               </span>
-              <span className="font-(--font-display) text-lg">{p.totalScore}</span>
+              <span className="font-display text-lg">{p.totalScore}</span>
             </li>
           ))}
         </ul>
@@ -91,7 +91,7 @@ export function Podium({
             whileTap={{ scale: 0.97 }}
             onClick={onPlayAgain}
             disabled={resetting}
-            className="border-4 border-black bg-accent-primary px-4 py-3 font-(--font-display) uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000] disabled:opacity-50"
+            className="border-4 border-black bg-accent-primary px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000] disabled:opacity-50"
           >
             {resetting ? "Resetting..." : "Play Again"}
           </motion.button>
@@ -116,7 +116,7 @@ function PodiumSpot({ player, place }: { player: PlayerWithId; place: number }) 
     >
       <span className="text-sm font-bold">{player.nickname}</span>
       <div
-        className={`flex w-20 items-start justify-center border-4 border-black pt-2 font-(--font-display) text-2xl shadow-[3px_3px_0_#000] ${PLACE_HEIGHTS[place]} ${PLACE_COLORS[place]}`}
+        className={`flex w-20 items-start justify-center border-4 border-black pt-2 font-display text-2xl shadow-[3px_3px_0_#000] ${PLACE_HEIGHTS[place]} ${PLACE_COLORS[place]}`}
       >
         {place}
       </div>

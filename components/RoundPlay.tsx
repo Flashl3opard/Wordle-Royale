@@ -113,13 +113,13 @@ export function RoundPlay({
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            className="border-4 border-black bg-tile-correct px-4 py-2 font-(--font-display) uppercase text-white shadow-(--shadow-brutal)"
+            className="border-4 border-black bg-tile-correct px-4 py-2 font-display uppercase text-white shadow-(--shadow-brutal)"
           >
             You solved it! Waiting for others...
           </motion.p>
         )}
         {outOfAttempts && !solved && (
-          <p className="border-4 border-black bg-white px-4 py-2 font-(--font-display) uppercase shadow-(--shadow-brutal)">
+          <p className="border-4 border-black bg-white px-4 py-2 font-display uppercase shadow-(--shadow-brutal)">
             Out of guesses. Waiting for others...
           </p>
         )}

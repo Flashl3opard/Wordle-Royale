@@ -38,7 +38,7 @@ export function Timer({ roundEndsAt, roundDurationMs, onExpire, onUrgencyChange 
   if (roundEndsAt === null) {
     return (
       <div className="w-full max-w-md border-4 border-black bg-accent-tertiary px-3 py-2 text-center shadow-(--shadow-brutal)">
-        <p className="font-(--font-display) text-lg uppercase tracking-widest">
+        <p className="font-display text-lg uppercase tracking-widest">
           ∞ No Clock
         </p>
       </div>
@@ -59,7 +59,7 @@ export function Timer({ roundEndsAt, roundDurationMs, onExpire, onUrgencyChange 
           style={{ width: `${percent}%` }}
         />
       </div>
-      <p className="py-1 text-center font-(--font-display) text-lg uppercase">
+      <p className="py-1 text-center font-display text-lg uppercase">
         {seconds}s
       </p>
     </div>

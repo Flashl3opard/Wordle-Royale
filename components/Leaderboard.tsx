@@ -29,7 +29,7 @@ export function Leaderboard({ players, pointsThisRound }: LeaderboardProps) {
               {pointsThisRound?.[player.id] != null && (
                 <span className="text-xs font-black text-tile-correct">+{pointsThisRound[player.id]}</span>
               )}
-              <span className="font-(--font-display) text-lg">{player.totalScore}</span>
+              <span className="font-display text-lg">{player.totalScore}</span>
             </span>
           </motion.li>
         ))}

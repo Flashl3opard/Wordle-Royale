@@ -79,7 +79,7 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
           className="border-4 border-black bg-accent-secondary p-4 text-center shadow-(--shadow-brutal-lg)"
         >
           <p className="text-xs font-bold uppercase tracking-widest text-black/70">Room code</p>
-          <p className="font-(--font-display) text-4xl uppercase tracking-widest">{roomCode}</p>
+          <p className="font-display text-4xl uppercase tracking-widest">{roomCode}</p>
         </motion.div>
 
         <ul className="flex flex-col gap-2">
@@ -110,7 +110,7 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={() => selectMode("timed")}
-                className={`flex-1 border-4 border-black py-2 font-(--font-display) uppercase tracking-wide ${
+                className={`flex-1 border-4 border-black py-2 font-display uppercase tracking-wide ${
                   mode === "timed" ? "bg-accent-primary text-white" : "bg-white"
                 }`}
               >
@@ -121,7 +121,7 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={() => selectMode("infinite")}
-                className={`flex-1 border-4 border-black py-2 font-(--font-display) uppercase tracking-wide ${
+                className={`flex-1 border-4 border-black py-2 font-display uppercase tracking-wide ${
                   mode === "infinite" ? "bg-accent-tertiary text-black" : "bg-white"
                 }`}
               >
@@ -148,7 +148,7 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
               whileTap={{ scale: 0.97 }}
               onClick={startGame}
               disabled={players.length < 2 || starting}
-              className="border-4 border-black bg-accent-blue px-4 py-3 font-(--font-display) uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
+              className="border-4 border-black bg-accent-blue px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
             >
               {players.length < 2 ? "Need 2+ players" : starting ? "Starting..." : "Start Game"}
             </motion.button>

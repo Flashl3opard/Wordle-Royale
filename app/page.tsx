@@ -40,7 +40,7 @@ export default function HomePage() {
       <div className="pointer-events-none absolute right-10 bottom-16 h-20 w-20 -rotate-12 rounded-full border-4 border-black bg-accent-quaternary sm:h-28 sm:w-28" />
       <div className="pointer-events-none absolute top-1/3 right-6 h-10 w-10 rotate-45 border-4 border-black bg-accent-secondary sm:h-14 sm:w-14" />
 
-      <h1 className="relative font-(--font-display) text-6xl uppercase tracking-tight text-ink sm:text-7xl">
+      <h1 className="relative font-display text-5xl uppercase text-ink sm:text-6xl">
         <span className="text-accent-primary">Wordle</span> Arena
       </h1>
       <form
@@ -58,7 +58,7 @@ export default function HomePage() {
         <button
           type="submit"
           disabled={loading}
-          className="border-4 border-black bg-accent-primary px-4 py-3 font-(--font-display) uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
+          className="border-4 border-black bg-accent-primary px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
         >
           {loading ? "Creating..." : "Create Room"}
         </button>

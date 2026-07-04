@@ -38,7 +38,7 @@ export function JoinInline({ roomCode, onJoined }: JoinInlineProps) {
       onSubmit={handleJoin}
       className="flex w-full max-w-sm flex-col gap-4 border-4 border-black bg-white p-5 shadow-(--shadow-brutal-lg)"
     >
-      <p className="text-center font-(--font-display) text-2xl uppercase tracking-wide">
+      <p className="text-center font-display text-2xl uppercase tracking-wide">
         Join room <span className="text-accent-blue">{roomCode}</span>
       </p>
       <input
@@ -52,7 +52,7 @@ export function JoinInline({ roomCode, onJoined }: JoinInlineProps) {
       <button
         type="submit"
         disabled={loading}
-        className="border-4 border-black bg-accent-blue px-4 py-3 font-(--font-display) uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
+        className="border-4 border-black bg-accent-blue px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
       >
         {loading ? "Joining..." : "Join Room"}
       </button>
