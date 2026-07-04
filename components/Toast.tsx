@@ -14,9 +14,10 @@ export function ToastStack({ toasts }: ToastStackProps) {
         {toasts.map((toast) => (
           <motion.div
             key={toast.id}
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -24, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -24, scale: 0.8 }}
+            transition={{ type: "spring", stiffness: 400, damping: 22 }}
             className={`border-4 border-black px-4 py-2 text-sm font-bold uppercase tracking-wide shadow-[4px_4px_0_#000] ${
               toast.kind === "left" ? "bg-accent-primary text-white" : "bg-accent-tertiary text-black"
             }`}
