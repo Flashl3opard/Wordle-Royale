@@ -17,7 +17,7 @@ interface LobbyProps {
 export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyProps) {
   const isHost = room.hostPlayerId === myPlayerId;
   const [mode, setMode] = useState<GameMode>(room.mode);
-  const [roundDurationSec, setRoundDurationSec] = useState(room.roundDurationMs / 1000);
+  const [roundDurationMin, setRoundDurationMin] = useState(room.roundDurationMs / 60000);
   const [starting, setStarting] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,21 +32,21 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
     onLeave();
   }
 
-  async function saveSettings(nextMode: GameMode, nextDurationSec: number) {
+  async function saveSettings(nextMode: GameMode, nextDurationMin: number) {
     await fetch(`/api/rooms/${roomCode}/settings`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         playerId: myPlayerId,
         mode: nextMode,
-        ...(nextMode === "timed" ? { roundDurationMs: nextDurationSec * 1000 } : {}),
+        ...(nextMode === "timed" ? { roundDurationMs: Math.round(nextDurationMin * 60000) } : {}),
       }),
     });
   }
 
   function selectMode(nextMode: GameMode) {
     setMode(nextMode);
-    saveSettings(nextMode, roundDurationSec);
+    saveSettings(nextMode, roundDurationMin);
   }
 
   async function startGame() {
@@ -55,7 +55,11 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
     const res = await fetch(`/api/rooms/${roomCode}/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ playerId: myPlayerId }),
+      body: JSON.stringify({
+        playerId: myPlayerId,
+        mode,
+        ...(mode === "timed" ? { roundDurationMs: Math.round(roundDurationMin * 60000) } : {}),
+      }),
     });
     const data = await res.json();
     if (!res.ok) setError(data.error);
@@ -110,14 +114,15 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
           </div>
           {mode === "timed" && (
             <label className="flex items-center justify-between text-sm font-bold uppercase">
-              Round duration (sec)
+              Round duration (min)
               <input
                 type="number"
-                min={10}
-                max={120}
-                value={roundDurationSec}
-                onChange={(e) => setRoundDurationSec(Number(e.target.value))}
-                onBlur={() => saveSettings(mode, roundDurationSec)}
+                min={0.5}
+                max={10}
+                step={0.5}
+                value={roundDurationMin}
+                onChange={(e) => setRoundDurationMin(Number(e.target.value))}
+                onBlur={() => saveSettings(mode, roundDurationMin)}
                 className="w-20 border-4 border-black px-2 py-1 text-center"
               />
             </label>
