@@ -18,16 +18,23 @@ export const roomSettingsSchema = z
   .object({
     playerId: z.string().min(1),
     mode: z.enum(["timed", "infinite"]),
-    roundDurationMs: z.number().int().min(10000).max(120000).optional(),
+    roundDurationMs: z.number().int().min(30000).max(600000).optional(),
   })
   .refine((data) => data.mode !== "timed" || data.roundDurationMs !== undefined, {
     message: "roundDurationMs is required for timed mode",
     path: ["roundDurationMs"],
   });
 
-export const startRoomSchema = z.object({
-  playerId: z.string().min(1),
-});
+export const startRoomSchema = z
+  .object({
+    playerId: z.string().min(1),
+    mode: z.enum(["timed", "infinite"]),
+    roundDurationMs: z.number().int().min(30000).max(600000).optional(),
+  })
+  .refine((data) => data.mode !== "timed" || data.roundDurationMs !== undefined, {
+    message: "roundDurationMs is required for timed mode",
+    path: ["roundDurationMs"],
+  });
 
 export const guessSchema = z.object({
   playerId: z.string().min(1),
