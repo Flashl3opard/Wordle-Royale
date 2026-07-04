@@ -44,9 +44,14 @@ export function GameBoard({
               return (
                 <motion.div
                   key={colIndex}
-                  initial={{ rotateX: 0 }}
-                  animate={{ rotateX: [0, 90, 0] }}
-                  transition={{ duration: 0.5, delay: colIndex * 0.15 }}
+                  initial={{ rotateX: 0, scale: 1 }}
+                  animate={{ rotateX: [0, 90, 0], scale: [1, 1.15, 1] }}
+                  transition={{
+                    duration: 0.5,
+                    delay: colIndex * 0.15,
+                    times: [0, 0.5, 1],
+                    ease: ["easeIn", "backOut"],
+                  }}
                   className={`flex h-12 w-12 items-center justify-center border-4 text-2xl font-black shadow-[3px_3px_0_#000] sm:h-14 sm:w-14 ${TILE_COLORS[color]}`}
                 >
                   {letter}

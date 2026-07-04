@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import type { GuessAttempt, TileColor } from "@/lib/game/types";
 
 interface KeyboardProps {
@@ -40,17 +41,19 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
       {ROWS.map((row, rowIndex) => (
         <div key={rowIndex} className="flex justify-center gap-1">
           {rowIndex === 2 && (
-            <button
+            <motion.button
+              whileTap={{ scale: 0.85 }}
               disabled={disabled}
               onClick={() => onKeyPress("ENTER")}
               className="border-4 border-black bg-white px-3 py-3 text-xs font-black uppercase shadow-[2px_2px_0_#000] disabled:opacity-50"
             >
               Enter
-            </button>
+            </motion.button>
           )}
           {row.split("").map((letter) => (
-            <button
+            <motion.button
               key={letter}
+              whileTap={{ scale: 0.85 }}
               disabled={disabled}
               onClick={() => onKeyPress(letter)}
               className={`border-4 border-black px-2.5 py-3 text-sm font-black shadow-[2px_2px_0_#000] disabled:opacity-50 ${
@@ -58,16 +61,17 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
               }`}
             >
               {letter}
-            </button>
+            </motion.button>
           ))}
           {rowIndex === 2 && (
-            <button
+            <motion.button
+              whileTap={{ scale: 0.85 }}
               disabled={disabled}
               onClick={() => onKeyPress("BACKSPACE")}
               className="border-4 border-black bg-white px-3 py-3 text-xs font-black uppercase shadow-[2px_2px_0_#000] disabled:opacity-50"
             >
               Del
-            </button>
+            </motion.button>
           )}
         </div>
       ))}
