@@ -71,15 +71,15 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
   return (
     <>
       <BackgroundFX intensity="calm" />
-      <div className="relative z-10 flex w-full max-w-md flex-col gap-4">
+      <div className="relative z-10 flex w-full max-w-md flex-col gap-4 px-1">
         <motion.div
           initial={{ scale: 0.8, opacity: 0, rotate: -4 }}
           animate={{ scale: 1, opacity: 1, rotate: -2 }}
           transition={{ type: "spring", stiffness: 260, damping: 15 }}
-          className="border-4 border-black bg-accent-secondary p-4 text-center shadow-(--shadow-brutal-lg)"
+          className="rounded-(--radius-clay) bg-accent-secondary p-4 text-center shadow-(--shadow-clay-lg)"
         >
           <p className="text-xs font-bold uppercase tracking-widest text-black/70">Room code</p>
-          <p className="font-display text-4xl uppercase tracking-widest">{roomCode}</p>
+          <p className="font-display text-3xl uppercase tracking-widest sm:text-4xl">{roomCode}</p>
         </motion.div>
 
         <ul className="flex flex-col gap-2">
@@ -89,12 +89,12 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0, rotate: i % 2 === 0 ? 0.5 : -0.5 }}
               transition={{ type: "spring", stiffness: 300, damping: 20, delay: i * 0.05 }}
-              className="flex items-center justify-between border-4 border-black bg-white px-3 py-2 font-bold"
+              className="flex items-center justify-between gap-2 rounded-2xl bg-white px-3 py-2 font-bold shadow-(--shadow-clay-sm)"
               style={{ borderLeft: `10px solid ${PLAYER_COLORS[i % PLAYER_COLORS.length]}` }}
             >
-              <span>{p.nickname}</span>
+              <span className="truncate">{p.nickname}</span>
               {p.isHost && (
-                <span className="border-2 border-black bg-accent-quaternary px-2 py-0.5 text-xs font-black uppercase text-white">
+                <span className="shrink-0 rounded-full bg-accent-quaternary px-2 py-0.5 text-xs font-black uppercase text-white">
                   Host
                 </span>
               )}
@@ -103,15 +103,17 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
         </ul>
 
         {isHost && (
-          <div className="flex flex-col gap-4 border-4 border-black bg-white p-4 shadow-(--shadow-brutal)">
+          <div className="flex flex-col gap-4 rounded-(--radius-clay) bg-white p-4 shadow-(--shadow-clay)">
             <div className="flex gap-2">
               <motion.button
                 whileHover={{ scale: 1.05, rotate: -1 }}
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={() => selectMode("timed")}
-                className={`flex-1 border-4 border-black py-2 font-display uppercase tracking-wide ${
-                  mode === "timed" ? "bg-accent-primary text-white" : "bg-white"
+                className={`flex-1 rounded-2xl py-2 font-display uppercase tracking-wide transition-shadow ${
+                  mode === "timed"
+                    ? "bg-accent-primary text-white shadow-(--shadow-clay-pressed)"
+                    : "bg-surface shadow-(--shadow-clay-sm)"
                 }`}
               >
                 Timed
@@ -121,15 +123,17 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={() => selectMode("infinite")}
-                className={`flex-1 border-4 border-black py-2 font-display uppercase tracking-wide ${
-                  mode === "infinite" ? "bg-accent-tertiary text-black" : "bg-white"
+                className={`flex-1 rounded-2xl py-2 font-display uppercase tracking-wide transition-shadow ${
+                  mode === "infinite"
+                    ? "bg-accent-tertiary text-black shadow-(--shadow-clay-pressed)"
+                    : "bg-surface shadow-(--shadow-clay-sm)"
                 }`}
               >
                 Infinite
               </motion.button>
             </div>
             {mode === "timed" && (
-              <label className="flex items-center justify-between text-sm font-bold uppercase">
+              <label className="flex flex-wrap items-center justify-between gap-2 text-sm font-bold uppercase">
                 Round duration (min)
                 <input
                   type="number"
@@ -139,7 +143,7 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
                   value={roundDurationMin}
                   onChange={(e) => setRoundDurationMin(Number(e.target.value))}
                   onBlur={() => saveSettings(mode, roundDurationMin)}
-                  className="w-20 border-4 border-black px-2 py-1 text-center"
+                  className="w-20 rounded-xl bg-surface px-2 py-1 text-center shadow-(--shadow-clay-pressed)"
                 />
               </label>
             )}
@@ -148,7 +152,7 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
               whileTap={{ scale: 0.97 }}
               onClick={startGame}
               disabled={players.length < 2 || starting}
-              className="border-4 border-black bg-accent-blue px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
+              className="rounded-2xl bg-accent-blue px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-clay) transition-transform active:scale-95 active:shadow-(--shadow-clay-pressed) disabled:opacity-50"
             >
               {players.length < 2 ? "Need 2+ players" : starting ? "Starting..." : "Start Game"}
             </motion.button>
