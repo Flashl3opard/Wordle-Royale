@@ -36,13 +36,13 @@ export function JoinInline({ roomCode, onJoined }: JoinInlineProps) {
   return (
     <form
       onSubmit={handleJoin}
-      className="flex w-full max-w-sm flex-col gap-4 border-4 border-black bg-white p-5 shadow-(--shadow-brutal-lg)"
+      className="flex w-full max-w-sm flex-col gap-4 rounded-[var(--radius-clay)] bg-white p-5 shadow-(--shadow-clay-lg)"
     >
       <p className="text-center font-display text-2xl uppercase tracking-wide">
         Join room <span className="text-accent-blue">{roomCode}</span>
       </p>
       <input
-        className="border-4 border-black px-3 py-2 font-bold placeholder:font-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-tertiary"
+        className="rounded-2xl bg-surface px-3 py-2 font-bold shadow-(--shadow-clay-pressed) placeholder:font-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-tertiary"
         placeholder="Your nickname"
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
@@ -52,7 +52,7 @@ export function JoinInline({ roomCode, onJoined }: JoinInlineProps) {
       <button
         type="submit"
         disabled={loading}
-        className="border-4 border-black bg-accent-blue px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-brutal) transition-transform hover:-translate-x-1 hover:-translate-y-1 hover:shadow-(--shadow-brutal-lg) disabled:opacity-50"
+        className="rounded-2xl bg-accent-blue px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-clay) transition-transform active:scale-95 active:shadow-(--shadow-clay-pressed) disabled:opacity-50"
       >
         {loading ? "Joining..." : "Join Room"}
       </button>
