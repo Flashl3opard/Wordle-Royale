@@ -35,7 +35,7 @@ export default function RoomPage() {
   const guessesByPlayer = useRoundGuesses(
     roomCode,
     ROUND_NUMBER,
-    room?.status === "finished"
+    room?.status === "in_round" || room?.status === "finished"
   );
 
   usePresenceSync(roomCode, myPlayerId ?? null);
@@ -111,6 +111,8 @@ export default function RoomPage() {
           round={round}
           roundDurationMs={room.roundDurationMs}
           myGuess={myGuess}
+          players={players}
+          guessesByPlayer={guessesByPlayer}
         />
       )}
       {room.status === "finished" && round && (
@@ -121,6 +123,7 @@ export default function RoomPage() {
           resetting={resetting}
           secretWord={round.secretWord}
           guessesByPlayer={guessesByPlayer}
+          roundStartedAt={round.startedAt}
         />
       )}
     </main>

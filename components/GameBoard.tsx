@@ -11,9 +11,9 @@ interface GameBoardProps {
 }
 
 const TILE_COLORS: Record<TileColor, string> = {
-  green: "bg-tile-correct border-black text-white",
-  yellow: "bg-tile-present border-black text-black",
-  gray: "bg-tile-absent border-black text-white",
+  green: "bg-tile-correct text-white",
+  yellow: "bg-tile-present text-black",
+  gray: "bg-tile-absent text-white",
 };
 
 type Row =
@@ -52,7 +52,7 @@ export function GameBoard({
                     times: [0, 0.5, 1],
                     ease: ["easeIn", "backOut"],
                   }}
-                  className={`flex h-12 w-12 items-center justify-center border-4 text-2xl font-black shadow-[3px_3px_0_#000] sm:h-14 sm:w-14 ${TILE_COLORS[color]}`}
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl text-2xl font-black shadow-(--shadow-clay-sm) sm:h-14 sm:w-14 ${TILE_COLORS[color]}`}
                 >
                   {letter}
                 </motion.div>
@@ -63,8 +63,8 @@ export function GameBoard({
               return (
                 <div
                   key={colIndex}
-                  className={`flex h-12 w-12 items-center justify-center border-4 text-2xl font-black sm:h-14 sm:w-14 ${
-                    letter ? "border-black bg-accent-secondary/30" : "border-black"
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl text-2xl font-black sm:h-14 sm:w-14 ${
+                    letter ? "bg-accent-secondary/30 shadow-(--shadow-clay-pressed)" : "bg-surface shadow-(--shadow-clay-pressed)"
                   }`}
                 >
                   {letter}
@@ -74,7 +74,7 @@ export function GameBoard({
             return (
               <div
                 key={colIndex}
-                className="flex h-12 w-12 items-center justify-center border-4 border-gray-300 sm:h-14 sm:w-14"
+                className="h-11 w-11 rounded-xl bg-surface shadow-(--shadow-clay-pressed) sm:h-14 sm:w-14"
               />
             );
           })}

@@ -37,7 +37,7 @@ export function Timer({ roundEndsAt, roundDurationMs, onExpire, onUrgencyChange 
 
   if (roundEndsAt === null) {
     return (
-      <div className="w-full max-w-md border-4 border-black bg-accent-tertiary px-3 py-2 text-center shadow-(--shadow-brutal)">
+      <div className="w-full max-w-md rounded-[var(--radius-clay)] bg-accent-tertiary px-3 py-2 text-center shadow-(--shadow-clay)">
         <p className="font-display text-lg uppercase tracking-widest">
           ∞ No Clock
         </p>
@@ -49,13 +49,13 @@ export function Timer({ roundEndsAt, roundDurationMs, onExpire, onUrgencyChange 
 
   return (
     <div
-      className={`w-full max-w-md border-4 border-black bg-white shadow-(--shadow-brutal) ${
+      className={`w-full max-w-md rounded-[var(--radius-clay)] bg-white shadow-(--shadow-clay) ${
         urgent ? "animate-pulse" : ""
       }`}
     >
-      <div className="h-4 w-full overflow-hidden border-b-4 border-black bg-white">
+      <div className="mx-2 mt-2 h-4 w-[calc(100%-1rem)] overflow-hidden rounded-full bg-surface shadow-(--shadow-clay-pressed)">
         <div
-          className={`h-full transition-[width] duration-200 ease-linear ${urgent ? "bg-accent-primary" : "bg-accent-blue"}`}
+          className={`h-full rounded-full transition-[width] duration-200 ease-linear ${urgent ? "bg-accent-primary" : "bg-accent-blue"}`}
           style={{ width: `${percent}%` }}
         />
       </div>
