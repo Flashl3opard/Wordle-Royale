@@ -45,7 +45,7 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
               whileTap={{ scale: 0.85 }}
               disabled={disabled}
               onClick={() => onKeyPress("ENTER")}
-              className="border-4 border-black bg-white px-3 py-3 text-xs font-black uppercase shadow-[2px_2px_0_#000] disabled:opacity-50"
+              className="rounded-lg bg-white px-2 py-3 text-xs font-black uppercase shadow-(--shadow-clay-sm) disabled:opacity-50 sm:px-3"
             >
               Enter
             </motion.button>
@@ -56,7 +56,7 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
               whileTap={{ scale: 0.85 }}
               disabled={disabled}
               onClick={() => onKeyPress(letter)}
-              className={`border-4 border-black px-2.5 py-3 text-sm font-black shadow-[2px_2px_0_#000] disabled:opacity-50 ${
+              className={`rounded-lg px-2 py-3 text-sm font-black shadow-(--shadow-clay-sm) disabled:opacity-50 sm:px-2.5 ${
                 keyStates[letter] ? KEY_COLORS[keyStates[letter]] : "bg-white"
               }`}
             >
@@ -68,7 +68,7 @@ export function Keyboard({ attempts, onKeyPress, disabled }: KeyboardProps) {
               whileTap={{ scale: 0.85 }}
               disabled={disabled}
               onClick={() => onKeyPress("BACKSPACE")}
-              className="border-4 border-black bg-white px-3 py-3 text-xs font-black uppercase shadow-[2px_2px_0_#000] disabled:opacity-50"
+              className="rounded-lg bg-white px-2 py-3 text-xs font-black uppercase shadow-(--shadow-clay-sm) disabled:opacity-50 sm:px-3"
             >
               Del
             </motion.button>
