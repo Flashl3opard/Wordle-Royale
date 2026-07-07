@@ -123,6 +123,7 @@ export default function RoomPage() {
           resetting={resetting}
           secretWord={round.secretWord}
           guessesByPlayer={guessesByPlayer}
+          roundStartedAt={round.startedAt}
         />
       )}
     </main>
