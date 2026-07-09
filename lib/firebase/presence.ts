@@ -7,11 +7,8 @@ export function registerPresence(roomCode: string, playerId: string): () => void
 
   const unsubscribe = onValue(connectedRef, (snap) => {
     if (snap.val() !== true) return;
-    onDisconnect(presenceRef)
-      .set({ online: false, lastSeen: serverTimestamp() })
-      .then(() => {
-        set(presenceRef, { online: true, lastSeen: serverTimestamp() });
-      });
+    set(presenceRef, { online: true, lastSeen: serverTimestamp() });
+    onDisconnect(presenceRef).set({ online: false, lastSeen: serverTimestamp() });
   });
 
   return () => unsubscribe();

@@ -32,7 +32,18 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${bungee.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try {
+              var theme = localStorage.getItem("wordle-arena:theme");
+              if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+            } catch (e) {}`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

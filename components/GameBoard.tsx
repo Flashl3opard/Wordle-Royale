@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
+import confetti from "canvas-confetti";
 import type { GuessAttempt, TileColor } from "@/lib/game/types";
 
 interface GameBoardProps {
@@ -8,6 +10,7 @@ interface GameBoardProps {
   currentGuess: string;
   maxAttempts?: number;
   wordLength?: number;
+  minAttemptsRendered?: number;
 }
 
 const TILE_COLORS: Record<TileColor, string> = {
@@ -26,10 +29,14 @@ export function GameBoard({
   currentGuess,
   maxAttempts = 6,
   wordLength = 5,
+  minAttemptsRendered = 0,
 }: GameBoardProps) {
+  const effectiveAttemptCount = Math.max(attempts.length, Math.min(minAttemptsRendered, maxAttempts));
+  const sparkledRef = useRef<Set<string>>(new Set());
+
   const rows: Row[] = Array.from({ length: maxAttempts }, (_, rowIndex) => {
     if (rowIndex < attempts.length) return { kind: "submitted", attempt: attempts[rowIndex] };
-    if (rowIndex === attempts.length) return { kind: "current" };
+    if (rowIndex === effectiveAttemptCount) return { kind: "current" };
     return { kind: "empty" };
   });
 
@@ -41,16 +48,31 @@ export function GameBoard({
             if (row.kind === "submitted") {
               const letter = row.attempt.word[colIndex]?.toUpperCase() ?? "";
               const color = row.attempt.tiles[colIndex];
+              const tileKey = `${rowIndex}-${colIndex}`;
               return (
                 <motion.div
                   key={colIndex}
                   initial={{ rotateX: 0, scale: 1 }}
-                  animate={{ rotateX: [0, 90, 0], scale: [1, 1.15, 1] }}
+                  animate={{ rotateX: [0, 90, 0], scale: [1, 1.2, 1] }}
                   transition={{
                     duration: 0.5,
                     delay: colIndex * 0.15,
                     times: [0, 0.5, 1],
                     ease: ["easeIn", "backOut"],
+                  }}
+                  onAnimationComplete={(e) => {
+                    const el = e as { target?: EventTarget | null };
+                    void el;
+                    if (color !== "green" || sparkledRef.current.has(tileKey)) return;
+                    sparkledRef.current.add(tileKey);
+                    confetti({
+                      particleCount: 10,
+                      spread: 40,
+                      startVelocity: 18,
+                      scalar: 0.6,
+                      origin: { x: 0.5, y: 0.6 },
+                      disableForReducedMotion: true,
+                    });
                   }}
                   className={`flex h-11 w-11 items-center justify-center rounded-xl text-2xl font-black shadow-(--shadow-clay-sm) sm:h-14 sm:w-14 ${TILE_COLORS[color]}`}
                 >

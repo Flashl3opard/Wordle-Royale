@@ -49,7 +49,7 @@ export function Timer({ roundEndsAt, roundDurationMs, onExpire, onUrgencyChange 
 
   return (
     <div
-      className={`w-full max-w-md rounded-[var(--radius-clay)] bg-white shadow-(--shadow-clay) ${
+      className={`w-full max-w-md rounded-[var(--radius-clay)] bg-card shadow-(--shadow-clay) ${
         urgent ? "animate-pulse" : ""
       }`}
     >

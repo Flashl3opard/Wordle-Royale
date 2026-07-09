@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { savePlayerId } from "@/lib/player-session";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function HomePage() {
   const router = useRouter();
@@ -35,7 +36,10 @@ export default function HomePage() {
   }
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center gap-8 overflow-hidden bg-surface p-6">
+    <main className="relative flex min-h-screen flex-col items-center justify-center gap-8 overflow-hidden p-6">
+      <div className="absolute top-6 right-6 z-10">
+        <ThemeToggle />
+      </div>
       <div className="pointer-events-none absolute top-10 left-8 h-16 w-16 rotate-12 rounded-3xl bg-accent-tertiary shadow-(--shadow-clay-sm) sm:h-24 sm:w-24" />
       <div className="pointer-events-none absolute right-10 bottom-16 h-20 w-20 -rotate-12 rounded-full bg-accent-quaternary shadow-(--shadow-clay-sm) sm:h-28 sm:w-28" />
       <div className="pointer-events-none absolute top-1/3 right-6 h-10 w-10 rotate-45 rounded-2xl bg-accent-secondary shadow-(--shadow-clay-sm) sm:h-14 sm:w-14" />
@@ -45,7 +49,7 @@ export default function HomePage() {
       </h1>
       <form
         onSubmit={handleCreateRoom}
-        className="relative flex w-full max-w-sm flex-col gap-4 rounded-[var(--radius-clay)] bg-white p-5 shadow-(--shadow-clay-lg)"
+        className="relative flex w-full max-w-sm flex-col gap-4 rounded-[var(--radius-clay)] bg-card p-5 shadow-(--shadow-clay-lg)"
       >
         <input
           className="rounded-2xl bg-surface px-3 py-2 font-bold shadow-(--shadow-clay-pressed) placeholder:font-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-blue"
@@ -64,9 +68,9 @@ export default function HomePage() {
         </button>
         <a
           href="/join"
-          className="text-center text-sm font-bold uppercase text-accent-blue underline decoration-2 underline-offset-4"
+          className="rounded-2xl bg-accent-tertiary px-4 py-3 text-center font-display uppercase tracking-wide text-black shadow-(--shadow-clay) transition-transform active:scale-95 active:shadow-(--shadow-clay-pressed)"
         >
-          Have a room code? Join instead
+          Join Game
         </a>
         {error && <p className="text-sm font-bold text-accent-primary">{error}</p>}
       </form>

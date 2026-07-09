@@ -35,8 +35,12 @@ export function RoundPlay({
   const [shake, setShake] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [urgent, setUrgent] = useState(false);
+  const [optimisticAttemptCount, setOptimisticAttemptCount] = useState(0);
 
   const attempts = myGuess?.attempts ?? [];
+  const effectiveOptimisticCount =
+    attempts.length >= optimisticAttemptCount ? 0 : optimisticAttemptCount;
+
   const solved = myGuess?.solved ?? false;
   const outOfAttempts = attempts.length >= 6;
   const canPlay = !solved && !outOfAttempts;
@@ -60,9 +64,13 @@ export function RoundPlay({
       if (!res.ok) {
         setError(data.error ?? "Invalid guess");
         setShake(true);
-        setTimeout(() => setShake(false), 400);
+        setTimeout(() => {
+          setShake(false);
+          setCurrentGuess("");
+        }, 400);
         return;
       }
+      setOptimisticAttemptCount(attempts.length + 1);
       setCurrentGuess("");
     } finally {
       setSubmitting(false);
@@ -99,11 +107,13 @@ export function RoundPlay({
   }
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex w-full flex-col items-center gap-6">
       <BackgroundFX intensity={urgent ? "max" : "energetic"} />
-      <div className="relative z-10 flex w-full flex-col items-center gap-6 lg:flex-row lg:items-start lg:justify-center">
-        <OpponentsPanel players={players} myPlayerId={myPlayerId} guessesByPlayer={guessesByPlayer} />
-        <div className="flex flex-col items-center gap-6">
+      <div className="relative z-10 grid w-full grid-cols-1 items-start gap-6 lg:grid-cols-[14rem_1fr_14rem]">
+        <div className="hidden lg:block">
+          <OpponentsPanel players={players} myPlayerId={myPlayerId} guessesByPlayer={guessesByPlayer} />
+        </div>
+        <div className="col-start-1 flex flex-col items-center gap-6 lg:col-start-2">
           <Timer
             roundEndsAt={round.roundEndsAt}
             roundDurationMs={roundDurationMs}
@@ -114,7 +124,11 @@ export function RoundPlay({
             animate={shake ? { x: [0, -8, 8, -8, 8, 0] } : { x: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <GameBoard attempts={attempts} currentGuess={canPlay ? currentGuess : ""} />
+            <GameBoard
+              attempts={attempts}
+              currentGuess={canPlay ? currentGuess : ""}
+              minAttemptsRendered={effectiveOptimisticCount}
+            />
           </motion.div>
           {solved && (
             <motion.p
@@ -127,13 +141,14 @@ export function RoundPlay({
             </motion.p>
           )}
           {outOfAttempts && !solved && (
-            <p className="rounded-2xl bg-white px-4 py-2 font-display uppercase shadow-(--shadow-clay)">
+            <p className="rounded-2xl bg-card px-4 py-2 font-display uppercase shadow-(--shadow-clay)">
               Out of guesses. Waiting for others...
             </p>
           )}
           {error && <p className="text-sm font-bold text-accent-primary">{error}</p>}
           <Keyboard attempts={attempts} onKeyPress={handleKeyPress} disabled={!canPlay || submitting} />
         </div>
+        <div className="hidden lg:block" aria-hidden />
       </div>
     </div>
   );

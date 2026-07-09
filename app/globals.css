@@ -17,11 +17,26 @@
   --shadow-clay-sm: 4px 4px 8px rgba(0, 0, 0, 0.1), -2px -2px 6px rgba(255, 255, 255, 0.6);
   --shadow-clay-pressed: inset 4px 4px 8px rgba(0, 0, 0, 0.15), inset -2px -2px 6px rgba(255, 255, 255, 0.5);
   --radius-clay: 1.5rem;
+  --sky-gradient: linear-gradient(120deg, #a1c4fd, #c2e9fb 35%, #fbc2eb 70%, #a1c4fd);
+  --card: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1c1b29;
+  --ink: #f2eefb;
+  --shadow-clay: 8px 8px 16px rgba(0, 0, 0, 0.45), -4px -4px 12px rgba(255, 255, 255, 0.05);
+  --shadow-clay-lg: 12px 12px 24px rgba(0, 0, 0, 0.5), -6px -6px 16px rgba(255, 255, 255, 0.06);
+  --shadow-clay-sm: 4px 4px 8px rgba(0, 0, 0, 0.4), -2px -2px 6px rgba(255, 255, 255, 0.04);
+  --shadow-clay-pressed: inset 4px 4px 8px rgba(0, 0, 0, 0.5), inset -2px -2px 6px rgba(255, 255, 255, 0.05);
+  --sky-gradient: linear-gradient(120deg, #1e1b3a, #2d2650 35%, #3a1f4d 70%, #1e1b3a);
+  --card: #2a2840;
 }
 
 @theme inline {
   --color-surface: var(--surface);
   --color-ink: var(--ink);
+  --color-card: var(--card);
   --color-accent-primary: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
   --color-accent-tertiary: var(--accent-tertiary);
@@ -35,8 +50,23 @@
   --font-display: var(--font-bungee);
 }
 
+@keyframes sky-drift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 body {
-  background: var(--surface);
+  background: var(--sky-gradient);
+  background-size: 300% 300%;
+  animation: sky-drift 75s ease-in-out infinite;
   color: var(--ink);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

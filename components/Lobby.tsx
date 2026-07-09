@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import type { PlayerWithId } from "@/store/useRoomStore";
 import type { GameMode, RoomDoc } from "@/lib/game/types";
 import { BackgroundFX } from "./BackgroundFX";
+import { ThemeToggle } from "./ThemeToggle";
 
 const PLAYER_COLORS = ["#ff3d3d", "#2f6bff", "#00e0d3", "#ff2fb0", "#ffd600", "#00c853"];
 
@@ -72,6 +73,9 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
     <>
       <BackgroundFX intensity="calm" />
       <div className="relative z-10 flex w-full max-w-md flex-col gap-4 px-1">
+        <div className="flex justify-end">
+          <ThemeToggle />
+        </div>
         <motion.div
           initial={{ scale: 0.8, opacity: 0, rotate: -4 }}
           animate={{ scale: 1, opacity: 1, rotate: -2 }}
@@ -83,13 +87,13 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
         </motion.div>
 
         <ul className="flex flex-col gap-2">
-          {players.map((p, i) => (
+          {players.filter((p) => p.connected).map((p, i) => (
             <motion.li
               key={p.id}
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0, rotate: i % 2 === 0 ? 0.5 : -0.5 }}
               transition={{ type: "spring", stiffness: 300, damping: 20, delay: i * 0.05 }}
-              className="flex items-center justify-between gap-2 rounded-2xl bg-white px-3 py-2 font-bold shadow-(--shadow-clay-sm)"
+              className="flex items-center justify-between gap-2 rounded-2xl bg-card px-3 py-2 font-bold shadow-(--shadow-clay-sm)"
               style={{ borderLeft: `10px solid ${PLAYER_COLORS[i % PLAYER_COLORS.length]}` }}
             >
               <span className="truncate">{p.nickname}</span>
@@ -103,7 +107,7 @@ export function Lobby({ room, players, myPlayerId, roomCode, onLeave }: LobbyPro
         </ul>
 
         {isHost && (
-          <div className="flex flex-col gap-4 rounded-(--radius-clay) bg-white p-4 shadow-(--shadow-clay)">
+          <div className="flex flex-col gap-4 rounded-(--radius-clay) bg-card p-4 shadow-(--shadow-clay)">
             <div className="flex gap-2">
               <motion.button
                 whileHover={{ scale: 1.05, rotate: -1 }}

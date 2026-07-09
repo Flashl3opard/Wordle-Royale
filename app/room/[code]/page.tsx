@@ -68,7 +68,7 @@ export default function RoomPage() {
   if (myPlayerId === undefined || (myPlayerId && !room)) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <p className="text-gray-500">Loading...</p>
+        <p className="text-ink/60">Loading...</p>
       </main>
     );
   }
@@ -87,7 +87,7 @@ export default function RoomPage() {
   if (!room) {
     return (
       <main className="flex min-h-screen items-center justify-center p-6">
-        <p className="text-lg text-gray-600">Room not found. It may have expired.</p>
+        <p className="text-lg text-ink/70">Room not found. It may have expired.</p>
       </main>
     );
   }

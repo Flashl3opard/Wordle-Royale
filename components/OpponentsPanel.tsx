@@ -17,7 +17,7 @@ const TILE_DOT_COLORS: Record<TileColor, string> = {
 };
 
 export function OpponentsPanel({ players, myPlayerId, guessesByPlayer }: OpponentsPanelProps) {
-  const opponents = players.filter((p) => p.id !== myPlayerId);
+  const opponents = players.filter((p) => p.id !== myPlayerId && p.connected);
 
   if (opponents.length === 0) return null;
 
@@ -33,7 +33,7 @@ export function OpponentsPanel({ players, myPlayerId, guessesByPlayer }: Opponen
           <motion.div
             key={player.id}
             layout
-            className="flex items-center justify-between gap-2 rounded-2xl bg-white px-3 py-2 shadow-(--shadow-clay-sm)"
+            className="flex items-center justify-between gap-2 rounded-2xl bg-card px-3 py-2 shadow-(--shadow-clay-sm)"
           >
             <span className="truncate text-sm font-bold">{player.nickname}</span>
             <span className="flex shrink-0 items-center gap-1">

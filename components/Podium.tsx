@@ -105,7 +105,7 @@ export function Podium({
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 260, damping: 20, delay: i * 0.08 }}
-              className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-2xl bg-white px-4 py-3 shadow-(--shadow-clay-sm)"
+              className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-2xl bg-card px-4 py-3 shadow-(--shadow-clay-sm)"
             >
               <span className="flex min-w-0 items-center gap-2 font-bold">
                 <span className="font-display text-lg text-accent-primary">{i + 1}</span>

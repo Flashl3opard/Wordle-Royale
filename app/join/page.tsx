@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { savePlayerId } from "@/lib/player-session";
+import { BackgroundFX } from "@/components/BackgroundFX";
 
 export default function JoinPage() {
   const router = useRouter();
@@ -37,19 +38,25 @@ export default function JoinPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6">
-      <h1 className="text-3xl font-bold">Join a Room</h1>
-      <form onSubmit={handleJoin} className="flex w-full max-w-sm flex-col gap-3">
+    <main className="relative flex min-h-screen flex-col items-center justify-center gap-8 overflow-hidden p-6">
+      <BackgroundFX intensity="calm" />
+      <h1 className="relative font-display text-4xl uppercase text-ink sm:text-5xl">
+        Join <span className="text-accent-blue">Room</span>
+      </h1>
+      <form
+        onSubmit={handleJoin}
+        className="relative flex w-full max-w-sm flex-col gap-4 rounded-[var(--radius-clay)] bg-card p-5 shadow-(--shadow-clay-lg)"
+      >
         <input
-          className="rounded border border-gray-400 px-3 py-2 uppercase tracking-widest"
-          placeholder="ROOM CODE"
+          className="rounded-2xl bg-surface px-3 py-2 text-center font-bold uppercase tracking-widest shadow-(--shadow-clay-pressed) placeholder:font-normal placeholder:tracking-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-blue"
+          placeholder="Room code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
           maxLength={6}
           required
         />
         <input
-          className="rounded border border-gray-400 px-3 py-2"
+          className="rounded-2xl bg-surface px-3 py-2 font-bold shadow-(--shadow-clay-pressed) placeholder:font-normal placeholder:text-gray-500 focus:outline-none focus:ring-4 focus:ring-accent-blue"
           placeholder="Your nickname"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
@@ -59,11 +66,11 @@ export default function JoinPage() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded bg-green-600 px-4 py-2 font-semibold text-white disabled:opacity-50"
+          className="rounded-2xl bg-accent-blue px-4 py-3 font-display uppercase tracking-wide text-white shadow-(--shadow-clay) transition-transform active:scale-95 active:shadow-(--shadow-clay-pressed) disabled:opacity-50"
         >
           {loading ? "Joining..." : "Join Room"}
         </button>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-center text-sm font-bold text-accent-primary">{error}</p>}
       </form>
     </main>
   );

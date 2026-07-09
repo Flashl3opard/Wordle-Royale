@@ -36,7 +36,7 @@ export function JoinInline({ roomCode, onJoined }: JoinInlineProps) {
   return (
     <form
       onSubmit={handleJoin}
-      className="flex w-full max-w-sm flex-col gap-4 rounded-[var(--radius-clay)] bg-white p-5 shadow-(--shadow-clay-lg)"
+      className="flex w-full max-w-sm flex-col gap-4 rounded-[var(--radius-clay)] bg-card p-5 shadow-(--shadow-clay-lg)"
     >
       <p className="text-center font-display text-2xl uppercase tracking-wide">
         Join room <span className="text-accent-blue">{roomCode}</span>
